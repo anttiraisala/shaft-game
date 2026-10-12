@@ -15,6 +15,11 @@ What works today:
 - Hunger, floor counter (1 to 333) and a restart key.
 - Floor layouts generated from the floor number with a 16-bit xorshift generator, verified against shared test vectors.
 
+## Changelog
+
+- v0.1.1: fixed a bug where the round ended with "You missed the platform" even though the player stood on the platform. The platform's physics position is now updated immediately when it moves, and rider detection is more tolerant while the platform moves.
+- v0.1.0: first playable prototype, shared test vectors and docs.
+
 ## How to run
 
 1. Install Godot 4.2 or newer (the standard build, not the .NET build).

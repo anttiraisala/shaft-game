@@ -12,7 +12,11 @@ enum State { ARRIVING, STOPPED, LEAVING }
 const STOP_Y: float = Rules.ROOM_FLOOR_Y + Rules.PLATFORM_THICKNESS * 0.5
 const START_Y: float = -40.0
 const EXIT_Y: float = float(Rules.SCREEN_HEIGHT) + 80.0
+## How far the player's feet may be from the platform top while it is stopped.
 const RIDER_TOLERANCE: float = 3.0
+## Looser tolerance while the platform moves, because the player may lag a few
+## pixels behind it from one physics frame to the next.
+const RIDER_TOLERANCE_MOVING: float = 10.0
 
 const LIGHT_GREEN: Color = Color("#3fbf6a")
 const LIGHT_RED: Color = Color("#d9342b")
@@ -43,6 +47,7 @@ func begin_arrival(floor_number: int) -> float:
 	position = Vector2((Rules.SHAFT_LEFT + Rules.SHAFT_RIGHT) * 0.5, START_Y)
 	_stop_duration = Rules.stop_time_for_floor(floor_number)
 	_state = State.ARRIVING
+	_sync_physics_transform()
 	return position.y - old_y
 
 
@@ -66,6 +71,7 @@ func advance(delta: float) -> float:
 			position.y += Rules.PLATFORM_SPEED * delta
 			if position.y >= EXIT_Y:
 				exited_this_frame = true
+	_sync_physics_transform()
 	queue_redraw()
 	return position.y - old_y
 
@@ -74,7 +80,8 @@ func advance(delta: float) -> float:
 func has_rider(player: Player) -> bool:
 	var platform_top: float = position.y - Rules.PLATFORM_THICKNESS * 0.5
 	var reach: float = Rules.PLATFORM_WIDTH * 0.5 + Player.SIZE.x * 0.5 - 2.0
-	var same_height: bool = absf(player.feet_y() - platform_top) <= RIDER_TOLERANCE
+	var tolerance: float = RIDER_TOLERANCE if _state == State.STOPPED else RIDER_TOLERANCE_MOVING
+	var same_height: bool = absf(player.feet_y() - platform_top) <= tolerance
 	return same_height and absf(player.position.x - position.x) < reach
 
 
@@ -96,6 +103,13 @@ func seconds_left() -> int:
 	if _state != State.STOPPED:
 		return -1
 	return maxi(ceili(_stop_timer), 0)
+
+
+## Tells the physics server the new position right away. Without this, Godot
+## updates a moved static body only after all physics callbacks of the frame,
+## and the player would collide with the platform's previous position.
+func _sync_physics_transform() -> void:
+	PhysicsServer2D.body_set_state(get_rid(), PhysicsServer2D.BODY_STATE_TRANSFORM, global_transform)
 
 
 func _draw() -> void:
