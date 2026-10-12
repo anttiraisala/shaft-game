@@ -118,7 +118,6 @@ func _end_round(message: String) -> void:
 
 
 func _build_room() -> void:
-	var half_width: float = float(Rules.SCREEN_WIDTH) * 0.5
 	var slab_height: float = float(Rules.SCREEN_HEIGHT) - Rules.ROOM_FLOOR_Y
 	var slab_y: float = Rules.ROOM_FLOOR_Y + slab_height * 0.5
 	var left_width: float = Rules.SHAFT_LEFT
@@ -126,11 +125,10 @@ func _build_room() -> void:
 
 	_add_static_rect(Vector2(left_width * 0.5, slab_y), Vector2(left_width, slab_height))
 	_add_static_rect(Vector2(Rules.SHAFT_RIGHT + right_width * 0.5, slab_y), Vector2(right_width, slab_height))
-	# Outer walls keep the player inside the screen.
+	# Outer walls keep the player inside the screen. There is deliberately no
+	# ceiling: the platform arrives from above the screen with the player on it.
 	_add_static_rect(Vector2(-20.0, 0.0), Vector2(40.0, 4000.0))
 	_add_static_rect(Vector2(float(Rules.SCREEN_WIDTH) + 20.0, 0.0), Vector2(40.0, 4000.0))
-	# The ceiling stops jumps from leaving the screen.
-	_add_static_rect(Vector2(half_width, -20.0), Vector2(float(Rules.SCREEN_WIDTH), 40.0))
 
 
 func _add_static_rect(center: Vector2, size: Vector2) -> void:

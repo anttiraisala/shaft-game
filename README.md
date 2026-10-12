@@ -17,6 +17,7 @@ What works today:
 
 ## Changelog
 
+- v0.1.2: fixed a bug where the player vanished when the platform moved to the next floor. An invisible ceiling over the shaft trapped the player above the screen; the ceiling is removed.
 - v0.1.1: fixed a bug where the round ended with "You missed the platform" even though the player stood on the platform. The platform's physics position is now updated immediately when it moves, and rider detection is more tolerant while the platform moves.
 - v0.1.0: first playable prototype, shared test vectors and docs.
 
