@@ -1,6 +1,6 @@
 # Project Plan
 
-Status: ideation. Nothing here is final; it records everything discussed so far.
+Status: prototype v0.1 exists (a basic playable loop in Godot, see `docs/rules.md`). The rest of this document is still ideas; nothing here is final, and it records everything discussed so far.
 
 ## 1. Concept
 
@@ -104,7 +104,7 @@ shaft-game/
 ├── shared/
 │   └── test-vectors/     seed to expected floor data
 ├── godot/                Godot 4 project
-├── c64/                  C64 source, build script, graphics
+├── c64/                  C64 source, build script, graphics (planned)
 ├── tools/                helper scripts
 └── .github/workflows/    CI builds
 ```
@@ -118,12 +118,13 @@ Conventions:
 
 ## 14. Roadmap
 
-1. Lock the rules on paper in `docs/rules.md`.
-2. Build a minimal Godot prototype: one room, a moving platform, a jumping player and a visible floor number.
-3. Add food, then temperature, then the lights, one at a time.
-4. Define the shared random number algorithm and the test vectors.
-5. Expand the Godot version into a full game and publish the web build.
-6. Build the C64 version using the same rules and seeds.
+1. Done (v0.1): rules for the basic game are in `docs/rules.md`.
+2. Done (v0.1): minimal Godot prototype with one room, a moving platform, red and green lights, a jumping player, a floor number, food on a ledge and hunger.
+3. Done (v0.1): shared 16-bit xorshift floor generator with test vectors for all 333 floors.
+4. Next: add the hot and cold leftover rule, then items, then sharing food with the floors below, one at a time.
+5. Add the dark bottom space, the ride up to floor 0 and random start floors.
+6. Expand the Godot version into a full game and publish the web build.
+7. Build the C64 version using the same rules and seeds.
 
 ## 15. Open questions
 

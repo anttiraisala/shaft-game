@@ -1,0 +1,17 @@
+# Godot 4
+godot/.godot/
+godot/build/
+*.translation
+
+# Python
+__pycache__/
+*.pyc
+
+# C64 build output (planned)
+c64/build/
+*.prg
+*.d64
+
+# Editor and OS files
+.DS_Store
+Thumbs.db
